@@ -1,3 +1,4 @@
 app/
 services/*/
 .vscode/
+.DS_Store
