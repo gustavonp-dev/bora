@@ -6,8 +6,9 @@ Este documento estabelece as convenções de contratos HTTP, formatos de payload
 
 ## 1. Padrões de Requisição e Resposta
 
-- **Formato:** JSON em todas as comunicações (`Content-Type: application/json`).
+- **Formato:** JSON em todas as comunicações (`Content-Type: application/json` ou `application/problem+json`).
 - **Nomenclatura nos Payloads:** `camelCase` para propriedades JSON (ex: `vehicleId`, `updatedAt`, `lineName`).
+- **Nomenclatura de Arquivos e Pastas:** Estritamente `snake_case` em todo o código backend.
 - **Datas e Horários:** Padrão ISO 8601 em UTC (ex: `2026-11-23T18:00:00.000Z`).
 
 ---
@@ -29,14 +30,27 @@ Este documento estabelece as convenções de contratos HTTP, formatos de payload
   }
   ```
 
-### 2.2. Respostas de Erro (RFC 7807)
+### 2.2. Respostas de Erro: RFC 9457 (Problem Details for HTTP APIs)
+> [!IMPORTANT]
+> A API Bora adota estritamente o padrão oficial **RFC 9457**, que substitui e descontinua a RFC 7807.
+
+Toda resposta com status code $\ge 400$ deve ser retornada com `Content-Type: application/problem+json`:
+
 ```json
 {
-  "error": {
-    "code": "RESOURCE_NOT_FOUND",
-    "message": "Veículo com o identificador informado não foi encontrado",
-    "timestamp": "2026-11-23T18:00:00.000Z"
-  }
+  "type": "https://api.bora.com/problems/validation-failed",
+  "title": "Validation Failed",
+  "status": 400,
+  "detail": "O campo 'points' deve conter ao menos uma coordenada válida",
+  "instance": "/api/v1/telemetry/positions",
+  "code": "INVALID_BATCH_PAYLOAD",
+  "invalidParams": [
+    {
+      "name": "points",
+      "reason": "O lote de coordenadas não pode estar vazio"
+    }
+  ],
+  "timestamp": "2026-11-23T18:00:00.000Z"
 }
 ```
 

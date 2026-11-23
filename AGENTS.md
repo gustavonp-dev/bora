@@ -9,17 +9,17 @@ Antes de planejar, codificar ou alterar qualquer arquivo neste repositório, voc
 ## 1. Regras de Conduta e Operação Técnica (`.agents/`)
 
 ### 1.1. Regras Globais e Universais (`.agents/rules/common/`)
-- `code-standards.md`: Convenções de nomenclatura, zero warnings, clean code e conventional commits.
+- `code-standards.md`: Convenções de nomenclatura estritamente em `snake_case` (sem `kebab-case`), **Orientação a Objetos clássica obrigatória no backend**, zero warnings e conventional commits.
 - `architecture-flow.md`: Respeito estrito ao fluxo unidirecional (DTO -> Service -> Repository).
 
 ### 1.2. Regras Específicas do Mobile (`.agents/rules/mobile/`)
 - `testing-policy.md`: TDD obrigatório em testes unitários, BDD em testes de widgets e regra anti-overflow `320x568`.
 - `user-feedback.md`: Diretriz de feedback visual obrigatório na interface via `BoraSnackbar` (4 estados).
-- `exception-handling-observability.md`: Separação entre operações bloqueantes e não bloqueantes, e logs estruturados via `dart:developer`.
+- `exception-handling-observability.md`: Separação entre operações bloqueantes e não bloqueantes, consumo de erros no padrão **RFC 9457** e logs estruturados via `dart:developer`.
 
 ### 1.3. Regras Específicas do Backend (`.agents/rules/backend/`)
-- `http-layer.md`: Separação de responsabilidades (Route -> Controller -> Service -> Repository).
-- `error-handling.md`: Middleware global de erro, respostas no padrão RFC 7807 e logs estruturados.
+- `http-layer.md`: Separação de responsabilidades sob o paradigma de **Orientação a Objetos Clássica** (Classes para Controllers, Services e Repositories com injeção de dependências via construtor).
+- `error-handling.md`: Middleware global de erro, hierarquia de classes de exceção, respostas no padrão oficial **RFC 9457 (Problem Details)** e logs estruturados.
 - `testing-policy.md`: TDD em Services e testes de integração de rotas HTTP com Supertest.
 
 ### 1.4. Guardrails e Integridade (`.agents/guard/`)
@@ -29,7 +29,7 @@ Antes de planejar, codificar ou alterar qualquer arquivo neste repositório, voc
 ### 1.5. Playbooks Operacionais (`.agents/tasks/`)
 - `common/fix-bug.md`: Playbook de Bug-First TDD para investigar e corrigir defeitos em qualquer camada.
 - `mobile/create-screen.md`: Playbook passo a passo para criar novas telas e fluxos no Flutter.
-- `backend/create-endpoint.md`: Playbook passo a passo para criar novos endpoints e módulos na API Express.
+- `backend/create-endpoint.md`: Playbook passo a passo para criar novos endpoints e módulos orientados a objetos na API Express.
 
 ---
 
@@ -43,7 +43,7 @@ Antes de planejar, codificar ou alterar qualquer arquivo neste repositório, voc
 - `tests.md`: Matriz de Decisão de Testes do Bora e critérios de aceitação no Flutter.
 
 ### 2.3. Backend (`specs/backend/`)
-- `api-standards.md`: Padrões de design REST, envelopes de dados, paginação e verbos HTTP.
+- `api-standards.md`: Padrões de design REST, envelopes de dados, respostas de erro em conformidade com a **RFC 9457** e verbos HTTP.
 - `tracking-pipeline.md`: Especificação do endpoint de ingestão de GPS em lote, cache Redis e PostgreSQL.
 
 ---
