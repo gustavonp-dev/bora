@@ -1,4 +1,4 @@
 app/
-services/*/
+backend/
 .vscode/
 .DS_Store
