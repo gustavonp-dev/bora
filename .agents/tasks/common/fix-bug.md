@@ -1,13 +1,15 @@
 # Playbook: Correção de Bugs (Bug-First TDD)
 
-Procedimento mandatório para investigação e correção de qualquer defeito reportado no projeto **Bora**.
+Procedimento mandatório para investigação e correção de qualquer defeito reportado no projeto **Bora** (Mobile e Backend).
 
 ---
 
 ## Procedimento Operacional
 
 1. **Localização da Camada:**
-   - Identifique em qual camada arquitetural o bug reside (Model, Service, Repository, ViewModel ou View).
+   - Identifique em qual camada arquitetural o bug reside:
+     - **Mobile:** Model, Service, Repository, ViewModel ou View.
+     - **Backend:** Model, DTO, Service, Repository ou Controller.
 
 2. **Criação do Teste de Reprodução (Red):**
    - **Antes de encostar no código de produção**, crie ou expanda um teste que reproduza exatamente o cenário da falha reportada.
@@ -18,5 +20,6 @@ Procedimento mandatório para investigação e correção de qualquer defeito re
    - Execute novamente o teste de reprodução até que ele seja aprovado com sucesso (**Green**).
 
 4. **Verificação de Regressão e Validação Geral:**
-   - Execute a suíte completa de testes (`cd app && flutter test`) para garantir que a correção não introduziu efeitos colaterais.
-   - Execute `cd app && flutter analyze lib/ test/`.
+   - Execute a suíte de testes e a análise estática correspondente ao escopo alterado:
+     - Se alterou o mobile: `cd app && flutter test && flutter analyze lib/ test/`.
+     - Se alterou o backend: `cd backend && npm run typecheck && npm test`.

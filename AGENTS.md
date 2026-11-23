@@ -1,39 +1,59 @@
 # Diretrizes Mestras para Agentes de IA - Projeto Bora
 
-Você é um agente autônomo de engenharia de software trabalhando no ecossistema mobile **Bora**.
+Você é um agente autônomo de engenharia de software trabalhando no ecossistema **Bora** (Mobile e Backend).
 
 Antes de planejar, codificar ou alterar qualquer arquivo neste repositório, você **DEVE obrigatoriamente** consultar e obedecer a divisão de responsabilidades abaixo:
 
 ---
 
 ## 1. Regras de Conduta e Operação Técnica (`.agents/`)
-Contém as regras de como você deve se comportar como engenheiro de software:
 
-- **`.agents/rules/`:**
-  - `code-standards.md`: Convenções de nomenclatura (snake_case), zero warnings, modularização.
-  - `testing-policy.md`: TDD obrigatório em unitários, BDD em widgets, anti-overflow `320x568`.
-  - `architecture-flow.md`: Respeito ao fluxo da flecha (View -> ViewModel -> Service -> Repository).
-  - `exception-handling-observability.md`: Diretriz de exceções (bloqueantes vs não bloqueantes) e logs via `dart:developer`.
-  - `user-feedback.md`: Diretriz de feedback visual obrigatório via `BoraSnackbar` (Success, Error, Warning, Info).
-- **`.agents/guard/`:**
-  - `anti-cheat.md`: Proibição estrita de enfraquecer testes ou silenciar o linter.
-  - `pre-completion-check.md`: Checklist obrigatório antes de declarar tarefa concluída (analyze 0 issues + test 100%).
-- **`.agents/tasks/`:**
-  - `create-screen.md`: Playbook passo a passo para criar novas telas e fluxos.
-  - `fix-bug.md`: Playbook de Bug-First TDD para investigar e corrigir defeitos.
+### 1.1. Regras Globais e Universais (`.agents/rules/common/`)
+- `code-standards.md`: Convenções de nomenclatura, zero warnings, clean code e conventional commits.
+- `architecture-flow.md`: Respeito estrito ao fluxo unidirecional (DTO -> Service -> Repository).
+
+### 1.2. Regras Específicas do Mobile (`.agents/rules/mobile/`)
+- `testing-policy.md`: TDD obrigatório em testes unitários, BDD em testes de widgets e regra anti-overflow `320x568`.
+- `user-feedback.md`: Diretriz de feedback visual obrigatório na interface via `BoraSnackbar` (4 estados).
+- `exception-handling-observability.md`: Separação entre operações bloqueantes e não bloqueantes, e logs estruturados via `dart:developer`.
+
+### 1.3. Regras Específicas do Backend (`.agents/rules/backend/`)
+- `http-layer.md`: Separação de responsabilidades (Route -> Controller -> Service -> Repository).
+- `error-handling.md`: Middleware global de erro, respostas no padrão RFC 7807 e logs estruturados.
+- `testing-policy.md`: TDD em Services e testes de integração de rotas HTTP com Supertest.
+
+### 1.4. Guardrails e Integridade (`.agents/guard/`)
+- `anti-cheat.md`: Proibição estrita de enfraquecer testes, alterar mocks válidos ou silenciar analisadores estáticos.
+- `pre-completion-check.md`: Checklist obrigatório e condicional executado antes de declarar qualquer entrega como concluída.
+
+### 1.5. Playbooks Operacionais (`.agents/tasks/`)
+- `common/fix-bug.md`: Playbook de Bug-First TDD para investigar e corrigir defeitos em qualquer camada.
+- `mobile/create-screen.md`: Playbook passo a passo para criar novas telas e fluxos no Flutter.
+- `backend/create-endpoint.md`: Playbook passo a passo para criar novos endpoints e módulos na API Express.
 
 ---
 
 ## 2. Especificações de Domínio e Produto Bora (`specs/`)
-Contém o detalhamento de negócio, produto e regras específicas da aplicação Bora:
 
-- **`specs/ui.md`:** Especificação visual do Bora, design tokens (`commons/theme`), layout das telas e regras de apresentação.
-- **`specs/tests.md`:** Matriz de Decisão de Testes do Bora e critérios de aceitação.
-- **`specs/tracking.md`:** Estratégia de mapas (`flutter_map`), rastreamento de veículos e polylines.
+### 2.1. Produto & Negócio Compartilhado (`specs/product/`)
+- `tracking.md`: Arquitetura de telemetria em tempo real, dimensionamento de frota e rastreamento via GPS.
+
+### 2.2. Mobile (`specs/mobile/`)
+- `ui.md`: Especificação visual do Bora, design tokens (`AppColors`, `AppTypography`, `AppSpacing`) e layout.
+- `tests.md`: Matriz de Decisão de Testes do Bora e critérios de aceitação no Flutter.
+
+### 2.3. Backend (`specs/backend/`)
+- `api-standards.md`: Padrões de design REST, envelopes de dados, paginação e verbos HTTP.
+- `tracking-pipeline.md`: Especificação do endpoint de ingestão de GPS em lote, cache Redis e PostgreSQL.
 
 ---
 
-## 3. Critério de Conclusão Obrigatório
-Nenhuma entrega é considerada finalizada sem:
-1. `cd app && flutter analyze lib/ test/` com **0 issues**.
-2. `cd app && flutter test` com **100% dos testes aprovados**.
+## 3. Critério de Conclusão Obrigatório (Definition of Done)
+Nenhuma entrega é considerada finalizada sem a validação do escopo afetado:
+1. **Se alterou arquivos em `app/`:**
+   - `cd app && flutter analyze lib/ test/` com **0 issues**.
+   - `cd app && flutter test` com **100% dos testes aprovados**.
+2. **Se alterou arquivos em `backend/`:**
+   - `cd backend && npm run typecheck` com **0 erros**.
+   - `cd backend && npm test` com **100% dos testes aprovados** (quando houver testes configurados).
+3. **Se alterou ambos:** Ambas as baterias devem ser executadas e aprovadas com 100% de sucesso.

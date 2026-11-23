@@ -1,21 +1,35 @@
 # Guardrail: Checklist Pré-Conclusão (Definition of Done)
 
-Nenhuma tarefa de desenvolvimento, refatoração ou correção de bug pode ser marcada como finalizada por um agente de IA sem a verificação rigorosa deste checklist:
+Nenhuma tarefa de desenvolvimento, refatoração ou correção de bug pode ser marcada como finalizada por um agente de IA sem a verificação rigorosa deste checklist condicional:
 
 ---
 
-## Checklist Obrigatório
+## 1. Verificação Condicional por Escopo Alterado
 
-- [ ] **1. Análise Estática Impecável:**
+### A. Se houve alteração no Mobile (`app/`):
+- [ ] **Análise Estática do Flutter Impecável:**
   - Comando: `cd app && flutter analyze lib/ test/`
   - Critério: **Zero issues** (0 warnings, 0 errors, 0 hints não autorizados).
-
-- [ ] **2. Suíte de Testes 100% Aprovada:**
+- [ ] **Suíte de Testes do Flutter 100% Aprovada:**
   - Comando: `cd app && flutter test`
   - Critério: **Todos os testes passando**, sem skips ou falhas silenciosas.
+- [ ] **Conformidade com a Matriz de Decisão (`specs/mobile/tests.md`):**
+  - Se criou/alterou ViewModel/Service: há testes em `test/unit/`?
+  - Se criou/alterou View: há teste BDD com anti-overflow (`320x568`) em `test/widgets/`?
 
-- [ ] **3. Conformidade com a Matriz de Decisão:**
-  - Verifique `specs/tests.md`: se você criou ou alterou uma ViewModel/Service, há testes em `test/unit/`? Se criou/alterou uma View, há teste BDD com anti-overflow em `test/widgets/`?
+### B. Se houve alteração no Backend (`backend/`):
+- [ ] **Checagem Estática de Tipos TypeScript Impecável:**
+  - Comando: `cd backend && npm run typecheck`
+  - Critério: **Zero erros** de tipagem (`tsc --noEmit`).
+- [ ] **Suíte de Testes do Backend Aprovada:**
+  - Comando: `cd backend && npm test` (se configurado)
+  - Critério: **100% dos testes passando**.
+- [ ] **Conformidade com a Camada HTTP (`.agents/rules/backend/http-layer.md`):**
+  - Controllers não contêm regras de negócio diretas?
+  - Services não manipulam diretamente `req` ou `res` do Express?
 
-- [ ] **4. Limpeza de Arquivos e Imports:**
-  - Nenhum arquivo temporário, mock solto ou import morto foi esquecido na árvore de arquivos.
+---
+
+## 2. Verificações Universais (Mobile e Backend)
+- [ ] **Anti-Cheat:** Nenhuma asserção de teste foi enfraquecida, nenhum mock foi corrompido e nenhum aviso de linter foi silenciado com `// ignore: ...` ou `@ts-ignore`.
+- [ ] **Limpeza de Arquivos e Código Morto:** Nenhum arquivo temporário, mock solto ou import não utilizado foi esquecido na árvore de arquivos.
