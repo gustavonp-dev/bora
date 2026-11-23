@@ -1,4 +1,22 @@
 version: '3'
 
+tasks:
+  
+  clone:
+    desc: 'Lista os repostórios disponíveis para clonar'
+    cmds:
+      - task --list | grep "clone:"
+  
+  clone:all:
+    desc: 'Clona todos os repositórios do projeto'
+    deps:
+      - clone:app
+
+  clone:app:
+    desc: 'Clona o repositório do app'
+    cmds:
+      - git clone https://github.com/gustavonp-dev/bora-app.git ./app
+    status:
+      - test -d app
 
 
