@@ -13,6 +13,8 @@ Contém as regras de como você deve se comportar como engenheiro de software:
   - `code-standards.md`: Convenções de nomenclatura (snake_case), zero warnings, modularização.
   - `testing-policy.md`: TDD obrigatório em unitários, BDD em widgets, anti-overflow `320x568`.
   - `architecture-flow.md`: Respeito ao fluxo da flecha (View -> ViewModel -> Service -> Repository).
+  - `exception-handling-observability.md`: Diretriz de exceções (bloqueantes vs não bloqueantes) e logs via `dart:developer`.
+  - `user-feedback.md`: Diretriz de feedback visual obrigatório via `BoraSnackbar` (Success, Error, Warning, Info).
 - **`.agents/guard/`:**
   - `anti-cheat.md`: Proibição estrita de enfraquecer testes ou silenciar o linter.
   - `pre-completion-check.md`: Checklist obrigatório antes de declarar tarefa concluída (analyze 0 issues + test 100%).
